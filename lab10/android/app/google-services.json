@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "616861484730",
+    "project_id": "aplicaciondeinventario",
+    "storage_bucket": "aplicaciondeinventario.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616861484730:android:b121318d1a6341b5fb2483",
+        "android_client_info": {
+          "package_name": "com.example.lab10"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616861484730-tt8tueqjkpgrbld1i4ogq3q7s8hgi28r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvpzWlWQXy13HZt12Y4-iDuh7p5uZOTi4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616861484730-tt8tueqjkpgrbld1i4ogq3q7s8hgi28r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
