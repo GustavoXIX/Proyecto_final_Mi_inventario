@@ -67,7 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '616861484730',
     projectId: 'aplicaciondeinventario',
     storageBucket: 'aplicaciondeinventario.appspot.com',
-    iosClientId: '616861484730-2shf3hob8qoqeufpio1fqmordf9vpb63.apps.googleusercontent.com',
+    iosClientId:
+        '616861484730-2shf3hob8qoqeufpio1fqmordf9vpb63.apps.googleusercontent.com',
     iosBundleId: 'com.example.lab10',
   );
 
@@ -77,7 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '616861484730',
     projectId: 'aplicaciondeinventario',
     storageBucket: 'aplicaciondeinventario.appspot.com',
-    iosClientId: '616861484730-2shf3hob8qoqeufpio1fqmordf9vpb63.apps.googleusercontent.com',
+    iosClientId:
+        '616861484730-2shf3hob8qoqeufpio1fqmordf9vpb63.apps.googleusercontent.com',
     iosBundleId: 'com.example.lab10',
   );
 }

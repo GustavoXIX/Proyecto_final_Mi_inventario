@@ -1,11 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:invetariopersonal/Provider/provider.dart';
 import 'package:invetariopersonal/Service/Service.dart';
 import 'package:invetariopersonal/Service/locale.dart';
-import 'package:invetariopersonal/home/home.dart';
+import 'package:invetariopersonal/pages/home.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Temas/Theme.dart';
 import 'rigester/Signin.dart';
 
 SharedPreferences? prefs;
@@ -22,17 +25,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Material App',
-      translations: Languages(),
-      locale: Get.deviceLocale,
-      fallbackLocale: const Locale('en', 'US'),
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        accentColor: Color.fromARGB(255, 0, 47, 218),
-        primaryColor: Color.fromARGB(255, 0, 47, 218),
-      ),
-      home: prefs?.get('id') == null ? signin() : home(),
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => CRUDOperationProvider()),
+        ],
+        child: GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          translations: Languages(),
+          locale: Get.deviceLocale,
+          theme: tema,
+          fallbackLocale: const Locale('en', 'US'),
+          home: prefs?.get('id') == null ? signin() : home(),
+        ));
   }
 }

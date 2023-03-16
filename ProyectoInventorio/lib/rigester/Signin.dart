@@ -2,11 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:invetariopersonal/Service/auth.dart';
 import 'package:invetariopersonal/combonent/CustomButton.dart';
 import 'package:invetariopersonal/rigester/Signout.dart';
 import 'package:invetariopersonal/rigester/header_widget.dart';
+
+import '../pages/home.dart';
 
 class signin extends StatefulWidget {
   const signin({super.key});
@@ -102,12 +105,12 @@ class _signinState extends State<signin> {
                         ),
                         defultbutton(
                           text: 'Iniciar sesion'.tr,
-                          press: () {
+                          press: () async {
                             signinWithEmail(
                                 email: emailController.text,
                                 password: passwordController.text);
-                            // Get.to(home());
-                            // Statechange();
+
+                            Statechange();
                           },
                           color: Color.fromARGB(255, 0, 0, 0),
                         ),

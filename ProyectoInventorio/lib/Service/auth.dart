@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:invetariopersonal/home/home.dart';
+import 'package:invetariopersonal/pages/home.dart';
 import 'package:invetariopersonal/main.dart';
 import 'package:invetariopersonal/rigester/Signin.dart';
 
@@ -77,7 +78,9 @@ signinWithEmail({required String email, required String password}) async {
       Get.to(home());
     }
   } catch (error) {
-    print(error);
+    SnackBar(
+      content: Text("No puede iniciar session"),
+    );
   }
 }
 
