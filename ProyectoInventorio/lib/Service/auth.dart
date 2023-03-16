@@ -46,17 +46,22 @@ Statechange() async {
   });
 }
 
-creatAccount({required String email, required String password}) async {
+createAccount({required String email, required String password}) async {
   try {
     var auth = FirebaseAuth.instance;
     var user = await auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
-    Get.to(signin());
+    SnackBar(
+      content: Text("Usuario creado con email" + email),
+    );
+    Get.to(home());
     print(user.user?.uid);
   } catch (error) {
-    print(error);
+    const SnackBar(
+      content: Text("Error al crear usuario"),
+    );
   }
 }
 
@@ -75,11 +80,15 @@ signinWithEmail({required String email, required String password}) async {
         .signInWithEmailAndPassword(email: email, password: password);
 
     if (user.user?.uid != null) {
-      Get.to(home());
+      Get.to(() => home());
+      const SnackBar(
+        content: Text("Inicio de sesion exitoso"),
+      );
     }
-  } catch (error) {
+  } on FirebaseAuthException catch (e) {
     SnackBar(
-      content: Text("No puede iniciar session"),
+      backgroundColor: Colors.amber,
+      content: Text(e.code),
     );
   }
 }
@@ -89,7 +98,7 @@ founsSignout() async {
     var auth = FirebaseAuth.instance;
     var user = auth.signOut();
     prefs?.clear();
-    Get.offAll(() => signin());
+    Get.offAll(() => const signin());
     print('User is Sign out');
   } catch (error) {
     print(error);

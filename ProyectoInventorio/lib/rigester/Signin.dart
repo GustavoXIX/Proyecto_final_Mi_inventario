@@ -1,8 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:invetariopersonal/Service/auth.dart';
 import 'package:invetariopersonal/combonent/CustomButton.dart';
@@ -106,7 +102,7 @@ class _signinState extends State<signin> {
                         defultbutton(
                           text: 'Iniciar sesion'.tr,
                           press: () async {
-                            signinWithEmail(
+                            await signinWithEmail(
                                 email: emailController.text,
                                 password: passwordController.text);
 
@@ -120,14 +116,9 @@ class _signinState extends State<signin> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text("¿Tienes cuenta?".tr),
+                                  Text("¿No tienes cuenta?".tr),
                                   TextButton(
                                     onPressed: () async {
-                                      await FirebaseAuth.instance
-                                          .signInWithEmailAndPassword(
-                                        email: emailController.text,
-                                        password: passwordController.text,
-                                      );
                                       setState(() {});
                                       Get.to(Signup());
                                     },

@@ -17,6 +17,7 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   final double _height = 200;
+  bool _obscureText = true;
 
   final _formkeyemail = GlobalKey<FormState>();
 
@@ -48,7 +49,7 @@ class _SignupState extends State<Signup> {
                           height: 25,
                         ),
                         Center(
-                          child: Text('a1'.tr,
+                          child: Text('Hola'.tr,
                               style: TextStyle(
                                   fontSize: 70,
                                   color: Color.fromARGB(255, 255, 255, 255))),
@@ -63,96 +64,73 @@ class _SignupState extends State<Signup> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextFormField(
+                                decoration: InputDecoration(
+                                  hintText: "Email",
+                                ),
                                 controller: emailController,
-                                decoration: InputDecoration(hintText: "Email"),
-                                //hinttext: 'a2'.tr,
-                                // formkay: _formkeyemail,
-                                // lableText: 'UserName',
                               ),
                               TextFormField(
                                 controller: passwordController,
-                                decoration:
-                                    InputDecoration(hintText: "Password"),
-                                // formkay: _formkeypassword,
-                                //  hinttext: 'a3'.tr,
-                                //   lableText: 'Pssword',
+                                obscureText: _obscureText,
+                                decoration: InputDecoration(
+                                  hintText: "Password",
+                                  suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _obscureText
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscureText = !_obscureText;
+                                        });
+                                      }),
+                                ),
                               ),
                               TextFormField(
                                 controller: passwordController,
-                                decoration:
-                                    InputDecoration(hintText: "Re-Password"),
-                                // formkay: _formkeyrepassword,
-                                //  hinttext: 'an11'.tr,
-                                //   lableText: 'Pssword',
+                                obscureText: _obscureText,
+                                decoration: InputDecoration(
+                                  hintText: "Re-Password",
+                                  suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _obscureText
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscureText = !_obscureText;
+                                        });
+                                      }),
+                                ),
                               ),
                             ],
                           ),
                         ),
                         defultbutton(
                           text: 'a4'.tr,
-                          press: () {
-                            creatAccount(
-                                email: emailController.text,
-                                password: passwordController.text);
+                          press: () async {
+                            await createAccount(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
+                            Statechange();
                           },
                           color: Color.fromARGB(255, 0, 136, 255),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              TextButton(
-                                  onPressed: () {
-                                    showAlertDialog(context);
-                                  },
-                                  child: Text('a6'.tr)),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  TextButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      'a5'.tr,
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            OutlinedButton(
-                              onPressed: () =>
-                                  Get.updateLocale(const Locale('en', 'US')),
-                              child: const Text('English'),
-                            ),
-                            OutlinedButton(
-                              onPressed: () =>
-                                  Get.updateLocale(const Locale('ar', 'SA')),
-                              child: const Text('Arabic'),
-                            ),
-                          ],
                         ),
                         Container(
                           padding: EdgeInsets.all(10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("a10".tr),
+                              Text("Ya tienes cuenta?".tr),
                               TextButton(
                                 onPressed: () async {
-                                  // await FirebaseAuth.instance
-                                  //     .createUserWithEmailAndPassword(
-                                  //   email: emailController.text,
-                                  //   password: passwordController.text,
-                                  // );
-                                  // setState(() {});
+                                  setState(() {});
                                   Get.to(signin());
                                 },
-                                child: Text('a4'.tr),
+                                child: Text('Ingresa'.tr),
                               ),
                             ],
                           ),

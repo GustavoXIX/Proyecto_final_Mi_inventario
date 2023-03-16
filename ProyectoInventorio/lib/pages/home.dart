@@ -11,16 +11,6 @@ import 'package:invetariopersonal/widgets/pertenciaTitle.dart';
 import 'package:provider/provider.dart';
 
 const COLLECTION_NAME = 'colecion_pertenencia';
-void main() {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  Setup();
-  runApp(const signin());
-}
-
-void Setup() async {
-  await Future.delayed(const Duration(seconds: 3));
-}
 
 class home extends StatefulWidget {
   home({super.key});
@@ -40,29 +30,43 @@ class _homeState extends State<home> {
   Widget build(BuildContext context) {
     final provider = Provider.of<CRUDOperationProvider>(context);
     return SafeArea(
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const AddNewPertenenciaPage()),
-            );
-          },
-          child: const Icon(Icons.add),
-        ),
-        body: RefreshIndicator(
-          onRefresh: () => provider.fetchPertenencias(),
-          child: Padding(
-            padding: EdgeInsets.all(5.0),
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return PertenenciaTile(
-                    pertencia: provider.listaPertencias[index]);
-              },
-              itemCount: provider.listaPertencias.length,
-            ),
+        child: Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const AddNewPertenenciaPage()),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
+      body: RefreshIndicator(
+        onRefresh: () => provider.fetchPertenencias(),
+        child: Padding(
+          padding: EdgeInsets.all(5.0),
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              return PertenenciaTile(
+                  pertencia: provider.listaPertencias[index]);
+            },
+            itemCount: provider.listaPertencias.length,
           ),
         ),
       ),
-    );
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                founsSignout();
+                Statechange();
+              },
+            ),
+          ],
+        ),
+      ),
+    ));
   }
 }

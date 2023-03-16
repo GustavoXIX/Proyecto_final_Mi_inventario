@@ -15,7 +15,7 @@ class PertenenciaTile extends StatelessWidget {
     return Card(
       child: ListTile(
         title: Text(pertencia!.nombre),
-        subtitle: Text("${pertencia!.nombre}, \n${pertencia!.descripcion}"),
+        subtitle: Text("${pertencia!.descripcion}"),
         trailing: SizedBox(
           width: MediaQuery.of(context).size.width * 0.4,
           child: Row(

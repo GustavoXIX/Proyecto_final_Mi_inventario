@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -139,9 +140,9 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                         // Widget para seleccionar o tomar una imagen
                         InkWell(
                           onTap: () async {
-                            final pickedImage = await ImagePicker().getImage(
-                              source: ImageSource.camera,
-                            );
+                            final ImagePicker _picker = ImagePicker();
+                            PickedFile? _pcikedFile = await _picker.getImage(
+                                source: ImageSource.camera);
                           },
                           child: Container(
                             decoration: BoxDecoration(
