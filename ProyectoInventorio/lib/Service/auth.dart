@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:invetariopersonal/Pages/ListaPertenencias.dart';
-import 'package:invetariopersonal/Provider/provider.dart';
 import 'package:invetariopersonal/main.dart';
 import 'package:invetariopersonal/Pages/IniciarSesion.dart';
 import 'package:http/http.dart' as http;

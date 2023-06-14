@@ -1,20 +1,26 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../Models/pertenecia.dart';
 
 class CRUDOperationProvider extends ChangeNotifier {
+  CRUDOperationProvider() {
+    fetchPertenencias();
+  }
   late List<Pertenencia?> listaPertenencias = [];
   final formKey = GlobalKey<FormState>();
 
   TextEditingController nombreController = TextEditingController();
   TextEditingController descripcionController = TextEditingController();
   TextEditingController costeController = TextEditingController();
-  TextEditingController imagenController = TextEditingController();
   TextEditingController fechaController = TextEditingController();
   TextEditingController idController = TextEditingController();
   bool isLoading = false;
+  File? selectedImage;
+  String? imageUrl;
 
   // FUNCION PARA AÑADIR PERTENENCIA
   Future<void> sendPertenenciaOnFirebase(BuildContext context) async {
@@ -32,7 +38,7 @@ class CRUDOperationProvider extends ChangeNotifier {
         "descripcion": descripcionController.text,
         "fecha": fechaController.text,
         "coste": costeController.text,
-        "imagen": imagenController.text,
+        "imagen": imageUrl,
       }),
     );
 
@@ -41,7 +47,7 @@ class CRUDOperationProvider extends ChangeNotifier {
       descripcionController.clear();
       costeController.clear();
       fechaController.clear();
-      imagenController.clear();
+      imageUrl = null;
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
           'Pertenencia añadida correctamente',
@@ -78,7 +84,7 @@ class CRUDOperationProvider extends ChangeNotifier {
         "descripcion": descripcionController.text,
         "fecha": fechaController.text,
         "coste": costeController.text,
-        "imagen": imagenController.text,
+        "imagen": imageUrl,
       }),
     );
 
@@ -87,7 +93,8 @@ class CRUDOperationProvider extends ChangeNotifier {
       descripcionController.clear();
       costeController.clear();
       fechaController.clear();
-      imagenController.clear();
+      imageUrl = null;
+
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
           'Pertenencia actualizada correctamente',
@@ -102,6 +109,15 @@ class CRUDOperationProvider extends ChangeNotifier {
         backgroundColor: Colors.red,
       ));
     }
+
+    // Limpia el formulario después de mostrar la notificación
+    Future.delayed(const Duration(milliseconds: 500), () {
+      nombreController.clear();
+      descripcionController.clear();
+      costeController.clear();
+      fechaController.clear();
+      imageUrl = null;
+    });
     fetchPertenencias();
   }
 
@@ -124,7 +140,7 @@ class CRUDOperationProvider extends ChangeNotifier {
           descripcion: pertenencia["descripcion"] ?? "",
           fecha: pertenencia["fecha"] ?? "",
           nombre: pertenencia["nombre"],
-          imagen: pertenencia["imagen"] ?? "",
+          imagen: pertenencia["imagen"],
           docId: id,
         ));
       }
@@ -160,5 +176,33 @@ class CRUDOperationProvider extends ChangeNotifier {
       ));
     }
     fetchPertenencias();
+  }
+
+  Future<void> onSelectImage(File? image) async {
+    if (image != null) {
+      // Guardar la imagen en una propiedad del proveedor
+      this.selectedImage = image;
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+      final FirebaseStorage storage = FirebaseStorage.instance;
+      // Enviar la imagen a Firestore
+      try {
+        // Subir la imagen al Storage de Firebase
+        final Reference reference = storage.ref().child('images/$fileName');
+        await reference.putFile(selectedImage as File);
+
+        // Obtener la URL de descarga de la imagen
+        imageUrl = await reference.getDownloadURL();
+
+        // guardado en una propiedad del proveedor
+        this.imageUrl = imageUrl;
+
+        // Notificar a los consumidores del proveedor sobre el cambio
+        notifyListeners();
+      } catch (error) {
+        // Manejar error que ocurra durante la carga de la imagen
+        print('Error al cargar la imagen: $error');
+      }
+    }
   }
 }

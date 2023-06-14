@@ -72,7 +72,6 @@ class _signinState extends State<signin> {
                               TextFormField(
                                 controller: passwordController,
                                 keyboardType: TextInputType.visiblePassword,
-                                // formkay: _formkeypassword,
                                 obscureText: _obscureText,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
@@ -106,6 +105,8 @@ class _signinState extends State<signin> {
                               c: context,
                             );
                             Statechange();
+                            emailController.clear();
+                            passwordController.clear();
                           },
                           color: Color.fromARGB(255, 0, 0, 0),
                         ),
@@ -120,6 +121,8 @@ class _signinState extends State<signin> {
                                     onPressed: () async {
                                       setState(() {});
                                       Get.to(Signup());
+                                      emailController.clear();
+                                      passwordController.clear();
                                     },
                                     child: Text('registrarse'.tr),
                                   ),

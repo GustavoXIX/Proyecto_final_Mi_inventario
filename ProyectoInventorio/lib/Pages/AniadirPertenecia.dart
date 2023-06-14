@@ -1,14 +1,10 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
 import 'package:invetariopersonal/Provider/provider.dart';
 import 'package:invetariopersonal/Models/pertenecia.dart';
 import 'package:invetariopersonal/widgets/calendario.dart';
 import 'package:provider/provider.dart';
+
+import '../widgets/ImageInput.dart';
 
 class AddNewPertenenciaPage extends StatefulWidget {
   final Pertenencia? pertenencia;
@@ -31,8 +27,7 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
           TextEditingController(text: widget.pertenencia!.coste.toString());
       provider.fechaController =
           TextEditingController(text: widget.pertenencia!.fecha.toString());
-      provider.imagenController =
-          TextEditingController(text: widget.pertenencia!.imagen);
+      provider.imageUrl = widget.pertenencia!.imagen;
     }
     return SafeArea(
         child: Scaffold(
@@ -119,44 +114,17 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                 const SizedBox(
                   height: 15,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 160.0),
-                  child: Container(
-                    height: 180,
+                if (provider.imageUrl != null && provider.imageUrl!.isNotEmpty)
+                  Container(
+                    height: 200,
                     width: 200,
                     decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.grey),
-                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.grey),
                     ),
-                    child: Stack(
-                      children: [
-                        // Widget para seleccionar o tomar una imagen
-                        InkWell(
-                          onTap: () async {
-                            final ImagePicker _picker = ImagePicker();
-                            PickedFile? _pcikedFile = await _picker.getImage(
-                                source: ImageSource.camera);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Center(
-                              child: Icon(
-                                Icons.camera_alt,
-                                size: 80,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                        ),
-                        // Widget para mostrar la imagen seleccionada o tomada
-                        // Aquí se puede agregar la lógica para mostrar la imagen
-                      ],
-                    ),
-                  ),
-                ),
+                    child: Image.network(provider.imageUrl!),
+                  )
+                else
+                  ImageInput(provider.onSelectImage),
                 const SizedBox(
                   height: 15,
                 ),

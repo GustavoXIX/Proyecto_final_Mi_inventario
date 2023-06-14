@@ -1,10 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:get/get.dart';
 import 'package:invetariopersonal/Provider/provider.dart';
 import 'package:invetariopersonal/Service/auth.dart';
-import 'package:invetariopersonal/widgets/CustomButton.dart';
 import 'package:invetariopersonal/Models/pertenecia.dart';
 import 'package:invetariopersonal/Pages/AniadirPertenecia.dart';
 import 'package:invetariopersonal/widgets/pertenciaTitle.dart';
@@ -20,16 +16,11 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
-  final _formkeyemail = GlobalKey<FormState>();
-
-  final _formkeypassword = GlobalKey<FormState>();
-
   late List<Pertenencia> listaPertenencia = [];
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<CRUDOperationProvider>(context);
-    var auth = FirebaseAuth.instance;
 
     return SafeArea(
         child: Scaffold(

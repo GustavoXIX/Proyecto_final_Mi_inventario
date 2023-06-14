@@ -15,8 +15,8 @@ import 'Pages/IniciarSesion.dart';
 SharedPreferences? prefs;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Setup();
   await Firebase.initializeApp();
+  Setup();
   prefs = await SharedPreferences.getInstance();
   Start().onInit();
 
