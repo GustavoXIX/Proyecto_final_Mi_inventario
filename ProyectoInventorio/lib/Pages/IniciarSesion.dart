@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:invetariopersonal/Service/auth.dart';
-import 'package:invetariopersonal/combonent/CustomButton.dart';
-import 'package:invetariopersonal/rigester/Signout.dart';
-import 'package:invetariopersonal/rigester/header_widget.dart';
-
-import '../pages/home.dart';
+import 'package:invetariopersonal/widgets/CustomButton.dart';
+import 'Registrarse.dart';
+import 'package:invetariopersonal/widgets/header_widget.dart';
 
 class signin extends StatefulWidget {
   const signin({super.key});
@@ -14,8 +12,6 @@ class signin extends StatefulWidget {
   State<signin> createState() => _signinState();
 }
 
-// final _formkeyemail = GlobalKey<FormState>();
-// final _formkeypassword = GlobalKey<FormState>();
 final emailController = TextEditingController();
 final passwordController = TextEditingController();
 
@@ -28,7 +24,6 @@ class _signinState extends State<signin> {
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
-        color: Color.fromARGB(255, 0, 0, 0),
         child: ListView(
           children: [
             Column(
@@ -45,10 +40,13 @@ class _signinState extends State<signin> {
                           height: 25,
                         ),
                         Center(
-                          child: Text('Hola'.tr,
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  fontSize: 70)),
+                          child: Text(
+                            'Hola',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(fontSize: 70.0),
+                          ),
                         ),
                         SizedBox(
                           height: 60,
@@ -100,12 +98,13 @@ class _signinState extends State<signin> {
                           ),
                         ),
                         defultbutton(
-                          text: 'Iniciar sesion'.tr,
+                          text: 'Iniciar sesion',
                           press: () async {
                             await signinWithEmail(
-                                email: emailController.text,
-                                password: passwordController.text);
-
+                              email: emailController.text,
+                              password: passwordController.text,
+                              c: context,
+                            );
                             Statechange();
                           },
                           color: Color.fromARGB(255, 0, 0, 0),
@@ -140,38 +139,4 @@ class _signinState extends State<signin> {
       ),
     );
   }
-}
-
-showAlertDialog(BuildContext context) {
-  // set up the buttons
-  Widget cancelButton = TextButton(
-    child: Text("ca1".tr),
-    onPressed: () {
-      Get.back();
-    },
-  );
-  Widget continueButton = TextButton(
-    child: Text("co1".tr),
-    onPressed: () {
-      Get.back();
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("ac1".tr),
-    content: Text("an12".tr),
-    actions: [
-      cancelButton,
-      continueButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }

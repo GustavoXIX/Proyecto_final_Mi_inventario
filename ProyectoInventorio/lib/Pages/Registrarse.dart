@@ -1,12 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:invetariopersonal/Service/auth.dart';
-import 'package:invetariopersonal/combonent/CustomButton.dart';
-import 'package:invetariopersonal/rigester/Signin.dart';
-import 'package:invetariopersonal/rigester/header_widget.dart';
+import 'package:invetariopersonal/widgets/CustomButton.dart';
+import 'package:invetariopersonal/widgets/header_widget.dart';
+import 'IniciarSesion.dart';
 
 class Signup extends StatefulWidget {
   Signup({super.key});
@@ -16,22 +13,18 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  final double _height = 200;
+  final double _height = 150;
   bool _obscureText = true;
 
-  final _formkeyemail = GlobalKey<FormState>();
-
-  final _formkeypassword = GlobalKey<FormState>();
-
-  final _formkeyrepassword = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        // Ajusta los valores según tus necesidades
         height: MediaQuery.of(context).size.height,
-        color: Color.fromARGB(255, 0, 0, 0),
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: ListView(
           children: [
             Column(
@@ -39,7 +32,7 @@ class _SignupState extends State<Signup> {
               children: [
                 Container(height: _height, child: HeaderWidget(_height)),
                 Container(
-                  //     padding: EdgeInsets.only(left: 13, right: 13),
+                  padding: EdgeInsets.only(left: 13, right: 13),
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -49,23 +42,27 @@ class _SignupState extends State<Signup> {
                           height: 25,
                         ),
                         Center(
-                          child: Text('Hola'.tr,
-                              style: TextStyle(
-                                  fontSize: 70,
-                                  color: Color.fromARGB(255, 255, 255, 255))),
+                          child: Text('Hola',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(fontSize: 70.0)),
                         ),
                         SizedBox(
-                          height: 50,
+                          height: 20,
                         ),
                         Container(
                           padding: EdgeInsets.only(left: 10, right: 10),
-                          height: 175,
+                          height: 207,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               TextFormField(
+                                keyboardType: TextInputType.emailAddress,
                                 decoration: InputDecoration(
                                   hintText: "Email",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(50)),
                                 ),
                                 controller: emailController,
                               ),
@@ -73,6 +70,8 @@ class _SignupState extends State<Signup> {
                                 controller: passwordController,
                                 obscureText: _obscureText,
                                 decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(50)),
                                   hintText: "Password",
                                   suffixIcon: IconButton(
                                       icon: Icon(
@@ -92,6 +91,8 @@ class _SignupState extends State<Signup> {
                                 obscureText: _obscureText,
                                 decoration: InputDecoration(
                                   hintText: "Re-Password",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(50)),
                                   suffixIcon: IconButton(
                                       icon: Icon(
                                         _obscureText
@@ -108,12 +109,16 @@ class _SignupState extends State<Signup> {
                             ],
                           ),
                         ),
+                        SizedBox(
+                          height: 20,
+                        ),
                         defultbutton(
-                          text: 'a4'.tr,
+                          text: 'Iniciar',
                           press: () async {
                             await createAccount(
                               email: emailController.text,
                               password: passwordController.text,
+                              c: context,
                             );
                             Statechange();
                           },
@@ -146,38 +151,4 @@ class _SignupState extends State<Signup> {
       ),
     );
   }
-}
-
-showAlertDialog(BuildContext context) {
-  // set up the buttons
-  Widget cancelButton = TextButton(
-    child: Text("ca1".tr),
-    onPressed: () {
-      Get.back();
-    },
-  );
-  Widget continueButton = TextButton(
-    child: Text("co1".tr),
-    onPressed: () {
-      Get.back();
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("ac1".tr),
-    content: Text("an12".tr),
-    actions: [
-      cancelButton,
-      continueButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }

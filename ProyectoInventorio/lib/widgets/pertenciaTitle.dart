@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:invetariopersonal/Provider/provider.dart';
-import 'package:invetariopersonal/modelo/pertenecia.dart';
-import 'package:invetariopersonal/pages/add_pertenencia.dart';
+import 'package:invetariopersonal/Models/pertenecia.dart';
+import 'package:invetariopersonal/Pages/AniadirPertenecia.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 
 class PertenenciaTile extends StatelessWidget {
   final Pertenencia? pertencia;
@@ -31,7 +30,6 @@ class PertenenciaTile extends StatelessWidget {
                 },
                 icon: const Icon(
                   Icons.edit,
-                  color: Colors.green,
                 ),
               ),
               IconButton(
@@ -42,7 +40,6 @@ class PertenenciaTile extends StatelessWidget {
                 },
                 icon: const Icon(
                   Icons.delete,
-                  color: Colors.red,
                 ),
               ),
             ],

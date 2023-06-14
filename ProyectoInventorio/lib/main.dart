@@ -1,16 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:invetariopersonal/Provider/provider.dart';
 import 'package:invetariopersonal/Service/Service.dart';
 import 'package:invetariopersonal/Service/locale.dart';
-import 'package:invetariopersonal/pages/home.dart';
+import 'package:invetariopersonal/Pages/ListaPertenencias.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'Temas/Theme.dart';
-import 'rigester/Signin.dart';
+import 'Theme/Theme.dart';
+import 'Pages/IniciarSesion.dart';
 
 SharedPreferences? prefs;
 void main() async {
@@ -32,17 +32,36 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => CRUDOperationProvider()),
-        ],
-        child: GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          translations: Languages(),
-          locale: Get.deviceLocale,
-          theme: tema,
-          fallbackLocale: const Locale('en', 'US'),
-          home: prefs?.get('id') == null ? signin() : home(),
-        ));
+    var inst = FirebaseAuth.instance;
+    var userID = inst.currentUser?.uid;
+
+    return FutureBuilder(
+      future: SharedPreferences.getInstance(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+
+        final prefs = snapshot.data as SharedPreferences?;
+        final uid = prefs?.getString('uid');
+
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (_) => CRUDOperationProvider(),
+            ),
+          ],
+          child: GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            translations: Languages(),
+            locale: Get.deviceLocale,
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: ThemeMode.system,
+            home: uid == null ? signin() : home(),
+          ),
+        );
+      },
+    );
   }
 }

@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:invetariopersonal/Provider/provider.dart';
-import 'package:invetariopersonal/modelo/pertenecia.dart';
+import 'package:invetariopersonal/Models/pertenecia.dart';
 import 'package:invetariopersonal/widgets/calendario.dart';
 import 'package:provider/provider.dart';
 
@@ -36,6 +37,8 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
     return SafeArea(
         child: Scaffold(
       body: SingleChildScrollView(
+        padding:
+            EdgeInsets.all(30.0), // Ajusta los valores según tus necesidades
         child: Form(
           key: provider.formKey,
           child: Padding(
@@ -52,11 +55,8 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                     return null;
                   },
                   decoration: InputDecoration(
-                    filled: true,
                     labelText: "Nombre",
-                    hintText: "Ordenador",
                     prefixIcon: const Icon(Icons.phone_iphone_outlined),
-                    fillColor: Color.fromARGB(255, 0, 0, 0),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
@@ -67,14 +67,10 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                 TextField(
                   maxLines: null,
                   controller: provider.descripcionController,
-                  cursorColor: Colors.black,
                   keyboardType: TextInputType.multiline,
                   decoration: InputDecoration(
-                    filled: true,
                     labelText: "Descripcion",
-                    hintText: "Es un dispositivo...",
                     prefixIcon: const Icon(Icons.messenger_outline_sharp),
-                    fillColor: Color.fromARGB(255, 0, 0, 0),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10)),
                   ),
@@ -111,13 +107,10 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                       }
                       return null;
                     },
-                    cursorColor: Colors.black,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      filled: true,
                       labelText: "Euros",
                       prefixIcon: const Icon(Icons.euro),
-                      fillColor: Color.fromARGB(255, 17, 14, 14),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5)),
                     ),
@@ -180,17 +173,18 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                                   context: context,
                                   id: widget.pertenencia!.docId);
                             } else {
-                              provider.sendPertenenciaOnFirebase(context);
+                              provider.sendPertenenciaOnFirebase(
+                                context,
+                              );
                             }
                           } else {}
                         },
-                        color: Color.fromARGB(255, 255, 255, 255),
+                        color: Theme.of(context).primaryColor,
                         child: Text(
                           widget.pertenencia != null
                               ? "Editar pertenencia"
                               : "Añadir pertenencia",
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0)),
+                          style: Theme.of(context).textTheme.labelSmall,
                         ),
                       )
               ],

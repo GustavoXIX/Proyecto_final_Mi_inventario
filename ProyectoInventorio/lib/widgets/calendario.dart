@@ -58,11 +58,10 @@ class _CalendarFormFieldState extends State<CalendarFormField> {
         keyboardType: TextInputType.datetime,
         cursorColor: Colors.black,
         decoration: InputDecoration(
-          filled: true,
           labelText: widget.labelText,
           hintText: widget.hintText,
           prefixIcon: const Icon(Icons.calendar_today),
-          fillColor: Color.fromARGB(255, 0, 0, 0),
+          fillColor: Theme.of(context).cardColor,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5),
           ),
