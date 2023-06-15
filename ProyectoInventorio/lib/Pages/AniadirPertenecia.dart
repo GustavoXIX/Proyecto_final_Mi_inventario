@@ -18,6 +18,7 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<CRUDOperationProvider>(context);
+    provider.fetchPertenencias();
     if (widget.pertenencia != null) {
       provider.nombreController =
           TextEditingController(text: widget.pertenencia!.nombre);
@@ -27,7 +28,8 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
           TextEditingController(text: widget.pertenencia!.coste.toString());
       provider.fechaController =
           TextEditingController(text: widget.pertenencia!.fecha.toString());
-      provider.imageUrl = widget.pertenencia!.imagen;
+      provider.imageUrlController =
+          TextEditingController(text: widget.pertenencia!.imagen);
     }
     return SafeArea(
         child: Scaffold(
@@ -114,14 +116,14 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                 const SizedBox(
                   height: 15,
                 ),
-                if (provider.imageUrl != null && provider.imageUrl!.isNotEmpty)
+                if (provider.imageUrlController.text.isNotEmpty)
                   Container(
                     height: 200,
                     width: 200,
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
                     ),
-                    child: Image.network(provider.imageUrl!),
+                    child: Image.network(provider.imageUrlController.text),
                   )
                 else
                   ImageInput(provider.onSelectImage),

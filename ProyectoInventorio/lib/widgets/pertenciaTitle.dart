@@ -22,7 +22,6 @@ class PertenenciaTile extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  // Editar usuario
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (_) => AddNewPertenenciaPage(
                             pertenencia: pertencia,
@@ -34,7 +33,6 @@ class PertenenciaTile extends StatelessWidget {
               ),
               IconButton(
                 onPressed: () {
-                  // Eliminar Usuario
                   provider.deletePertenencia(
                       context: context, id: pertencia!.docId);
                 },

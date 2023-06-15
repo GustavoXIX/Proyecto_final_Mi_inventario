@@ -6,8 +6,6 @@ import 'package:invetariopersonal/Pages/AniadirPertenecia.dart';
 import 'package:invetariopersonal/widgets/pertenciaTitle.dart';
 import 'package:provider/provider.dart';
 
-const COLLECTION_NAME = 'colecion_pertenencia';
-
 class home extends StatefulWidget {
   home({super.key});
 
@@ -21,12 +19,19 @@ class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<CRUDOperationProvider>(context);
-
     return SafeArea(
         child: Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            provider.nombreController.clear();
+            provider.descripcionController.clear();
+            provider.costeController.clear();
+            provider.fechaController.clear();
+            provider.imageUrlController.clear();
+          });
+
           Navigator.of(context).push(
             MaterialPageRoute(builder: (_) => const AddNewPertenenciaPage()),
           );

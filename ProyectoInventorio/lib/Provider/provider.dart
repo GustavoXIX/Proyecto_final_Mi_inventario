@@ -18,11 +18,11 @@ class CRUDOperationProvider extends ChangeNotifier {
   TextEditingController costeController = TextEditingController();
   TextEditingController fechaController = TextEditingController();
   TextEditingController idController = TextEditingController();
+  TextEditingController imageUrlController = TextEditingController();
   bool isLoading = false;
   File? selectedImage;
-  String? imageUrl;
 
-  // FUNCION PARA AÑADIR PERTENENCIA
+  // FUNCION PARA AÑADIR PERTENENCIA\\
   Future<void> sendPertenenciaOnFirebase(BuildContext context) async {
     isLoading = true;
     notifyListeners();
@@ -38,7 +38,7 @@ class CRUDOperationProvider extends ChangeNotifier {
         "descripcion": descripcionController.text,
         "fecha": fechaController.text,
         "coste": costeController.text,
-        "imagen": imageUrl,
+        "imagen": imageUrlController.text ?? '',
       }),
     );
 
@@ -47,7 +47,7 @@ class CRUDOperationProvider extends ChangeNotifier {
       descripcionController.clear();
       costeController.clear();
       fechaController.clear();
-      imageUrl = null;
+      imageUrlController.clear();
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
           'Pertenencia añadida correctamente',
@@ -84,7 +84,7 @@ class CRUDOperationProvider extends ChangeNotifier {
         "descripcion": descripcionController.text,
         "fecha": fechaController.text,
         "coste": costeController.text,
-        "imagen": imageUrl,
+        "imagen": imageUrlController.text,
       }),
     );
 
@@ -93,8 +93,7 @@ class CRUDOperationProvider extends ChangeNotifier {
       descripcionController.clear();
       costeController.clear();
       fechaController.clear();
-      imageUrl = null;
-
+      imageUrlController.clear();
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
           'Pertenencia actualizada correctamente',
@@ -116,7 +115,7 @@ class CRUDOperationProvider extends ChangeNotifier {
       descripcionController.clear();
       costeController.clear();
       fechaController.clear();
-      imageUrl = null;
+      imageUrlController.clear();
     });
     fetchPertenencias();
   }
@@ -140,7 +139,7 @@ class CRUDOperationProvider extends ChangeNotifier {
           descripcion: pertenencia["descripcion"] ?? "",
           fecha: pertenencia["fecha"] ?? "",
           nombre: pertenencia["nombre"],
-          imagen: pertenencia["imagen"],
+          imagen: pertenencia["imagen"] ?? "",
           docId: id,
         ));
       }
@@ -192,10 +191,10 @@ class CRUDOperationProvider extends ChangeNotifier {
         await reference.putFile(selectedImage as File);
 
         // Obtener la URL de descarga de la imagen
-        imageUrl = await reference.getDownloadURL();
+        String Url = await reference.getDownloadURL();
 
         // guardado en una propiedad del proveedor
-        this.imageUrl = imageUrl;
+        imageUrlController.text = Url;
 
         // Notificar a los consumidores del proveedor sobre el cambio
         notifyListeners();
