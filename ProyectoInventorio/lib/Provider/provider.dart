@@ -121,7 +121,7 @@ class CRUDOperationProvider extends ChangeNotifier {
   }
 
   // FUNCION PARA OBTENER LAS PERTENENCIAS
-  Future<void> fetchPertenencias() async {
+ Future<void> fetchPertenencias() async {
     listaPertenencias = [];
     var inst = FirebaseAuth.instance;
     var userID = inst.currentUser?.uid;
@@ -130,8 +130,8 @@ class CRUDOperationProvider extends ChangeNotifier {
     final response = await http.get(url);
     final extractedData = jsonDecode(response.body) as Map<String, dynamic>?;
 
-    final pertenenciasData = extractedData as Map<String, dynamic>;
-
+    if(extractedData!= null) {
+    final pertenenciasData = extractedData;
     pertenenciasData.forEach((id, pertenencia) {
       if (pertenencia != null && pertenencia is Map<String, dynamic>) {
         listaPertenencias.add(Pertenencia(
@@ -144,6 +144,7 @@ class CRUDOperationProvider extends ChangeNotifier {
         ));
       }
     });
+    }
 
     notifyListeners();
   }

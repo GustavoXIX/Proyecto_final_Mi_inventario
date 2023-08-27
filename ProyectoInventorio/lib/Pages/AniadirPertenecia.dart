@@ -83,7 +83,7 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                     if (value == null || value.isEmpty) {
                       return 'Por favor, introduzca una fecha';
                     } else if (value.length < 10) {
-                      return 'Por favor, introduzca fecha válido';
+                      return 'Por favor, introduzca fecha válida';
                     }
                     return null;
                   },
@@ -104,7 +104,7 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                       }
                       return null;
                     },
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       labelText: "Euros",
                       prefixIcon: const Icon(Icons.euro),
