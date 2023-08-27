@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:invetariopersonal/Imports/import.dart';
 import 'package:invetariopersonal/Pages/ListaPertenencias.dart';
 import 'package:invetariopersonal/main.dart';
 import 'package:invetariopersonal/Pages/IniciarSesion.dart';
@@ -26,7 +27,7 @@ checkuser() async {
     var auth = FirebaseAuth.instance;
     var user = auth.currentUser?.uid;
     userIDtemp = user;
-    print("User id is:" + '$user' ?? 'no user');
+    print("User id is:" + '$user');
   } catch (error) {
     print(error);
   }
@@ -116,7 +117,7 @@ signinWithEmail(
     if (user.user?.uid != null) {
       Get.to(() => home());
       checkuser();
-      ScaffoldMessenger.of(c).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(c).showSnackBar(const SnackBar(
         content: Text("Inicio de sesión exitoso"),
       ));
     }
@@ -148,8 +149,6 @@ signinWithEmail(
 
 founsSignout() async {
   try {
-    var auth = FirebaseAuth.instance;
-    var user = auth.signOut();
     prefs?.clear();
     Get.offAll(() => const signin());
     print('User is Sign out');
@@ -160,8 +159,6 @@ founsSignout() async {
 
 updateEmaile({required String? newEmail}) async {
   try {
-    var auth = FirebaseAuth.instance;
-    var user = auth.currentUser?.updateEmail(newEmail!);
     print('update email');
   } catch (error) {
     print(error);

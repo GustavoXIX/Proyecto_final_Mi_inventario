@@ -22,9 +22,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var inst = FirebaseAuth.instance;
-    var userID = inst.currentUser?.uid;
-
     return FutureBuilder(
       future: SharedPreferences.getInstance(),
       builder: (context, snapshot) {

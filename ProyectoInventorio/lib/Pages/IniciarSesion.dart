@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:invetariopersonal/Service/auth.dart';
-import 'package:invetariopersonal/widgets/CustomButton.dart';
+// ignore_for_file: use_build_context_synchronously
+
 import 'Registrarse.dart';
-import 'package:invetariopersonal/widgets/header_widget.dart';
+import 'package:invetariopersonal/Imports/import.dart';
 
 class signin extends StatefulWidget {
   const signin({super.key});
@@ -14,6 +12,7 @@ class signin extends StatefulWidget {
 
 final emailController = TextEditingController();
 final passwordController = TextEditingController();
+List<Pertenencia> listaPertenencias = [];
 
 class _signinState extends State<signin> {
   final double _height = 100;
@@ -36,7 +35,7 @@ class _signinState extends State<signin> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                       const SizedBox(
                           height: 25,
                         ),
                         Center(
@@ -98,7 +97,7 @@ class _signinState extends State<signin> {
                         ),
                         defultbutton(
                           text: 'Iniciar sesion',
-                          press: () async {
+                          press: () async {                            
                             await signinWithEmail(
                               email: emailController.text,
                               password: passwordController.text,

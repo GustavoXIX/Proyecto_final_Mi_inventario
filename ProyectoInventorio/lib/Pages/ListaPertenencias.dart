@@ -7,7 +7,7 @@ import 'package:invetariopersonal/widgets/pertenciaTitle.dart';
 import 'package:provider/provider.dart';
 
 class home extends StatefulWidget {
-  home({super.key});
+  const home({super.key});
 
   @override
   State<home> createState() => _homeState();
@@ -19,9 +19,7 @@ class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<CRUDOperationProvider>(context);
-    return SafeArea(
-        child: Scaffold(
-      floatingActionButton: FloatingActionButton(
+    var floatingActionButton2 = FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {
           Future.delayed(const Duration(milliseconds: 500), () {
@@ -39,7 +37,10 @@ class _homeState extends State<home> {
         child: const Icon(
           Icons.add,
         ),
-      ),
+      );
+    return SafeArea(
+        child: Scaffold(
+      floatingActionButton: floatingActionButton2,
       body: RefreshIndicator(
         onRefresh: () => provider.fetchPertenencias(),
         child: Padding(
@@ -70,4 +71,5 @@ class _homeState extends State<home> {
       ),
     ));
   }
+  
 }

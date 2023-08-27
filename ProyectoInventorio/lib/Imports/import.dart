@@ -8,4 +8,10 @@ export 'package:invetariopersonal/Service/locale.dart';
 export 'package:invetariopersonal/Pages/ListaPertenencias.dart';
 export 'package:provider/provider.dart';
 export 'package:shared_preferences/shared_preferences.dart';
+export 'package:invetariopersonal/Service/auth.dart';
+export 'package:invetariopersonal/widgets/CustomButton.dart';
+export '../Models/pertenecia.dart';
+export 'package:invetariopersonal/widgets/header_widget.dart';
+export 'package:invetariopersonal/main.dart';
 
+export 'package:image_picker/image_picker.dart';
