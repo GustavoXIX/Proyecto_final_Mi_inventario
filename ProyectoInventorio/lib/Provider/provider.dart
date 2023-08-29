@@ -10,7 +10,7 @@ class CRUDOperationProvider extends ChangeNotifier {
   CRUDOperationProvider() {
     fetchPertenencias();
   }
-  late List<Pertenencia?> listaPertenencias = [];
+   List<Pertenencia?> listaPertenencias = [];
   final formKey = GlobalKey<FormState>();
 
   TextEditingController nombreController = TextEditingController();
@@ -129,8 +129,8 @@ class CRUDOperationProvider extends ChangeNotifier {
         'https://aplicaciondeinventario-default-rtdb.europe-west1.firebasedatabase.app/Usuarios/$userID/Pertenencias.json');
     final response = await http.get(url);
     final extractedData = jsonDecode(response.body) as Map<String, dynamic>?;
-    final pertenenciasData = extractedData;
-    
+    final pertenenciasData = extractedData;  
+
     if(pertenenciasData!= null) {
     pertenenciasData.forEach((id, pertenencia) {
       if (pertenencia != null && pertenencia is Map<String, dynamic>) {
@@ -145,7 +145,7 @@ class CRUDOperationProvider extends ChangeNotifier {
       }
     });
     }
-
+  
     notifyListeners();
   }
 

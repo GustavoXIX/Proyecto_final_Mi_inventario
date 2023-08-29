@@ -27,7 +27,6 @@ checkuser() async {
     var auth = FirebaseAuth.instance;
     var user = auth.currentUser?.uid;
     userIDtemp = user;
-    print("User id is:" + '$user');
   } catch (error) {
     print(error);
   }
@@ -37,7 +36,6 @@ funcsignout() async {
   try {
     var auth = FirebaseAuth.instance;
     await auth.signOut();
-    print("User is sign out:");
   } catch (error) {
     print(error);
   }
@@ -147,11 +145,14 @@ signinWithEmail(
   }
 }
 
-founsSignout() async {
+founsSignout(var context) async {
   try {
     prefs?.clear();
-    Get.offAll(() => const signin());
-    print('User is Sign out');
+     var auth = FirebaseAuth.instance;
+     await auth.signOut();
+    Navigator.of(context).pop(
+          MaterialPageRoute(builder: (_) => const signin()),
+    );
   } catch (error) {
     print(error);
   }

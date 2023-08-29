@@ -20,6 +20,7 @@ class _signinState extends State<signin> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<CRUDOperationProvider>(context);
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -89,7 +90,7 @@ class _signinState extends State<signin> {
                                           _obscureText = !_obscureText;
                                         });
                                       }),
-                                  //  Pssword
+                           //  Pssword
                                 ),
                               )
                             ],
@@ -103,8 +104,8 @@ class _signinState extends State<signin> {
                               password: passwordController.text,
                               c: context,
                             );
+                            provider.fetchPertenencias();
                             Statechange();
-                            emailController.clear();
                             passwordController.clear();
                           },
                           color: Color.fromARGB(255, 0, 0, 0),

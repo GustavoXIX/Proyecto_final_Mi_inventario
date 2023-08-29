@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:invetariopersonal/Provider/provider.dart';
 import 'package:invetariopersonal/Service/auth.dart';
@@ -14,30 +15,29 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
-  late List<Pertenencia> listaPertenencia = [];
-
+  late List<Pertenencia?> listaPertenencia = [];
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<CRUDOperationProvider>(context);
+    var provider = Provider.of<CRUDOperationProvider>(context);
     var floatingActionButton2 = FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () {
-          Future.delayed(const Duration(milliseconds: 500), () {
-            provider.nombreController.clear();
-            provider.descripcionController.clear();
-            provider.costeController.clear();
-            provider.fechaController.clear();
-            provider.imageUrlController.clear();
-          });
+      backgroundColor: Theme.of(context).primaryColor,
+      onPressed: () {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          provider.nombreController.clear();
+          provider.descripcionController.clear();
+          provider.costeController.clear();
+          provider.fechaController.clear();
+          provider.imageUrlController.clear();
+        });
 
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => const AddNewPertenenciaPage()),
-          );
-        },
-        child: const Icon(
-          Icons.add,
-        ),
-      );
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const AddNewPertenenciaPage()),
+        );
+      },
+      child: const Icon(
+        Icons.add,
+      ),
+    );
     return SafeArea(
         child: Scaffold(
       floatingActionButton: floatingActionButton2,
@@ -62,7 +62,7 @@ class _homeState extends State<home> {
             IconButton(
               icon: Icon(Icons.logout),
               onPressed: () {
-                founsSignout();
+                founsSignout(context);
                 Statechange();
               },
             ),
@@ -71,5 +71,4 @@ class _homeState extends State<home> {
       ),
     ));
   }
-  
 }
