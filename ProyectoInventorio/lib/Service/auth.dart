@@ -113,6 +113,11 @@ signinWithEmail(
         .signInWithEmailAndPassword(email: email, password: password);
 
     if (user.user?.uid != null) {
+      if (prefs!.getBool('check') != null && prefs!.getBool('check') != false) {
+        prefs!.setString('uid', user.user!.uid);
+        prefs!.setString('email', email);
+        prefs!.setString('password', email);
+      }
       Get.to(() => home());
       checkuser();
       ScaffoldMessenger.of(c).showSnackBar(const SnackBar(
@@ -148,10 +153,11 @@ signinWithEmail(
 founsSignout(var context) async {
   try {
     prefs?.clear();
-     var auth = FirebaseAuth.instance;
-     await auth.signOut();
+    var auth = FirebaseAuth.instance;
+    +
+    await auth.signOut();
     Navigator.of(context).pop(
-          MaterialPageRoute(builder: (_) => const signin()),
+      MaterialPageRoute(builder: (_) => const signin()),
     );
   } catch (error) {
     print(error);

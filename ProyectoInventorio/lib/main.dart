@@ -5,16 +5,16 @@ import 'Theme/Theme.dart';
 SharedPreferences? prefs;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); 
-  Setup();
+  await Firebase.initializeApp();
   prefs = await SharedPreferences.getInstance();
+  Setup();
   Start().onInit();
 
   runApp(const MyApp());
 }
 
 void Setup() async {
-  await Future.delayed(const Duration(seconds: 2));
+  await Future.delayed(const Duration(seconds: 1));
 }
 
 class MyApp extends StatelessWidget {
@@ -26,10 +26,9 @@ class MyApp extends StatelessWidget {
       future: SharedPreferences.getInstance(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         }
-
-        final prefs = snapshot.data as SharedPreferences?;
+        final prefs = snapshot.data;
         final uid = prefs?.getString('uid');
 
         return MultiProvider(
@@ -45,7 +44,7 @@ class MyApp extends StatelessWidget {
             theme: lightTheme,
             darkTheme: darkTheme,
             themeMode: ThemeMode.system,
-            home: uid == null ? signin() : home(),
+            home: uid == null ?  signin() : home(),
           ),
         );
       },

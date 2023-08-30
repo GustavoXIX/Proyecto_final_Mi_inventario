@@ -24,19 +24,19 @@ class defulttextlaple extends StatelessWidget {
       decoration: InputDecoration(
         labelText: lableText,
         hintText: hinttext,
-        contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+        contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(100.0),
-            borderSide: BorderSide(color: Colors.grey)),
+            borderSide: const BorderSide(color: Colors.grey)),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(100.0),
-            borderSide: BorderSide(color: Color.fromARGB(92, 161, 161, 161))),
+            borderSide: const BorderSide(color: Color.fromARGB(92, 161, 161, 161))),
         errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(100.0),
-            borderSide: BorderSide(color: Colors.red, width: 2.0)),
+            borderSide: const BorderSide(color: Colors.red, width: 2.0)),
         focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(100.0),
-            borderSide: BorderSide(color: Colors.red, width: 2.0)),
+            borderSide: const BorderSide(color: Colors.red, width: 2.0)),
       ),
     );
   }

@@ -1,6 +1,4 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/material.dart';
+import 'package:invetariopersonal/Imports/import.dart';
 
 class defultbutton extends StatelessWidget {
   const defultbutton(
@@ -18,13 +16,13 @@ class defultbutton extends StatelessWidget {
       child: InkWell(
         onTap: press as void Function()?,
         child: Container(
-          margin: EdgeInsets.all(15),
+          margin: const EdgeInsets.all(15),
           width: 150,
           height: 42,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             border:
-                Border.all(color: Color.fromARGB(255, 0, 157, 255), width: 1.5),
+                Border.all(color: const Color.fromARGB(255, 0, 157, 255), width: 1.5),
           ),
           child: Center(
             child: Text(text!,

@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'Registrarse.dart';
 import 'package:invetariopersonal/Imports/import.dart';
 
@@ -17,6 +15,18 @@ List<Pertenencia> listaPertenencias = [];
 class _signinState extends State<signin> {
   final double _height = 100;
   bool _obscureText = true;
+  bool saveCredentials = false;
+  SharedPreferences? prefs;
+
+  @override
+  void initState() {
+    cargarUsuario();
+    super.initState();
+  }
+
+  cargarUsuario() async {
+    prefs = await SharedPreferences.getInstance();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +46,7 @@ class _signinState extends State<signin> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                       const SizedBox(
+                        const SizedBox(
                           height: 25,
                         ),
                         Center(
@@ -48,7 +58,7 @@ class _signinState extends State<signin> {
                                 .copyWith(fontSize: 70.0),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 60,
                         ),
                         Container(
@@ -90,22 +100,74 @@ class _signinState extends State<signin> {
                                           _obscureText = !_obscureText;
                                         });
                                       }),
-                           //  Pssword
+                                  //  Pssword
                                 ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 15),
+                          height: 54,
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 15.0),
+                              const Icon(
+                                Icons.home_filled,
+                                color: Color.fromARGB(255, 111, 111, 111),
+                              ),
+                              const SizedBox(width: 55.0), // Icono del candado
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text("Mantener la sesión iniciada"),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(()  {
+                                        saveCredentials = !saveCredentials;
+                                        if (saveCredentials) {
+                                         prefs!.setBool('check',true);
+                                        } else {
+                                         prefs!.setBool('check',false);
+                                        }
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 24.0,
+                                      height: 24.0,
+                                      margin: EdgeInsets.only(left: 35.0),
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: saveCredentials
+                                            ? Colors.blue
+                                            : Colors.transparent,
+                                        border: Border.all(color: Colors.blue),
+                                      ),
+                                      child: saveCredentials
+                                          ? const Icon(
+                                              Icons.check,
+                                              color: Colors.white,
+                                              size: 16.0,
+                                            )
+                                          : null,
+                                    ),
+                                  ),
+                                ],
                               )
                             ],
                           ),
                         ),
                         defultbutton(
                           text: 'Iniciar sesion',
-                          press: () async {                            
+                          press: () async {
                             await signinWithEmail(
                               email: emailController.text,
                               password: passwordController.text,
                               c: context,
                             );
                             provider.fetchPertenencias();
-                            Statechange();
+                            //Statechange();
                             passwordController.clear();
                           },
                           color: Color.fromARGB(255, 0, 0, 0),
@@ -121,8 +183,6 @@ class _signinState extends State<signin> {
                                     onPressed: () async {
                                       setState(() {});
                                       Get.to(Signup());
-                                      emailController.clear();
-                                      passwordController.clear();
                                     },
                                     child: Text('registrarse'.tr),
                                   ),

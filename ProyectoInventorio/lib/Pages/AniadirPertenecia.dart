@@ -39,7 +39,7 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
         child: Form(
           key: provider.formKey,
           child: Padding(
-            padding: EdgeInsets.only(top: 60.0, left: 10.0, right: 20.0),
+            padding: const EdgeInsets.only(top: 60.0, left: 10.0, right: 20.0),
             child: Column(
               children: [
                 TextFormField(

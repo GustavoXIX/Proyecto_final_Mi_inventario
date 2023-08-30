@@ -44,7 +44,7 @@ class _homeState extends State<home> {
       body: RefreshIndicator(
         onRefresh: () => provider.fetchPertenencias(),
         child: Padding(
-          padding: EdgeInsets.all(5.0),
+          padding: const EdgeInsets.all(5.0),
           child: ListView.builder(
             itemBuilder: (context, index) {
               return PertenenciaTile(
@@ -63,7 +63,7 @@ class _homeState extends State<home> {
               icon: Icon(Icons.logout),
               onPressed: () {
                 founsSignout(context);
-                Statechange();
+              //  Statechange();
               },
             ),
           ],

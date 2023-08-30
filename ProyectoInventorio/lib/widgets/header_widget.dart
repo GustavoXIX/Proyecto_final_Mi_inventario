@@ -1,6 +1,7 @@
 // This widget will draw header section of all page. Wich you will get with the project source code.
 
 import 'package:flutter/material.dart';
+import 'package:flutter/src/painting/gradient.dart';
 
 class HeaderWidget extends StatefulWidget {
   final double _height;
@@ -29,26 +30,34 @@ class _HeaderWidgetState extends State<HeaderWidget> {
       child: Stack(
         children: [
           ClipPath(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [
-                      Theme.of(context).primaryColor.withOpacity(0.4),
-                    ],
-                    begin: FractionalOffset(0.0, 0.0),
-                    end: FractionalOffset(1.0, 0.0),
-                    stops: [0.0, 1.0],
-                    tileMode: TileMode.clamp),
-              ),
-            ),
             clipper: ShapeClipper([
               Offset(width / 5, _height),
               Offset(width / 10 * 5, _height - 60),
               Offset(width / 5 * 4, _height + 20),
               Offset(width, _height - 18)
             ]),
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Theme.of(context).primaryColor.withOpacity(0.4),
+                    Theme.of(context).secondaryHeaderColor.withOpacity(0.8),
+                  ],
+                  stops: const [0.0, 1.0], // Ajusta las paradas según tus necesidades
+                  begin: const FractionalOffset(0.0, 0.0),
+                  end: FractionalOffset(1.0, 0.0),
+                  tileMode: TileMode.clamp,
+                ),
+              ),
+            ),
           ),
           ClipPath(
+            clipper: ShapeClipper([
+              Offset(width / 3, _height + 20),
+              Offset(width / 10 * 8, _height - 60),
+              Offset(width / 5 * 4, _height - 60),
+              Offset(width, _height - 20)
+            ]),
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -62,25 +71,19 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                     tileMode: TileMode.clamp),
               ),
             ),
-            clipper: ShapeClipper([
-              Offset(width / 3, _height + 20),
-              Offset(width / 10 * 8, _height - 60),
-              Offset(width / 5 * 4, _height - 60),
-              Offset(width, _height - 20)
-            ]),
           ),
           ClipPath(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 0, 47, 218),
-              ),
-            ),
             clipper: ShapeClipper([
               Offset(width / 5, _height),
               Offset(width / 2, _height - 40),
               Offset(width / 5 * 4, _height - 80),
               Offset(width, _height - 20)
             ]),
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 0, 47, 218),
+              ),
+            ),
           ),
         ],
       ),
