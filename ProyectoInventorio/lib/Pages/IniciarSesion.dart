@@ -114,7 +114,7 @@ class _signinState extends State<signin> {
                             children: [
                               const SizedBox(width: 15.0),
                               const Icon(
-                                Icons.home_filled,
+                                Icons.shield_moon_sharp,
                                 color: Color.fromARGB(255, 111, 111, 111),
                               ),
                               const SizedBox(width: 55.0), // Icono del candado
@@ -136,7 +136,7 @@ class _signinState extends State<signin> {
                                     child: Container(
                                       width: 24.0,
                                       height: 24.0,
-                                      margin: EdgeInsets.only(left: 35.0),
+                                      margin: EdgeInsets.symmetric(horizontal: 32.0),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: saveCredentials

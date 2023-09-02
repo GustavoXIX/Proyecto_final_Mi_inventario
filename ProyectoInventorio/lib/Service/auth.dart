@@ -154,7 +154,6 @@ founsSignout(var context) async {
   try {
     prefs?.clear();
     var auth = FirebaseAuth.instance;
-    +
     await auth.signOut();
     Navigator.of(context).pop(
       MaterialPageRoute(builder: (_) => const signin()),
