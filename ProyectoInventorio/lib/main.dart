@@ -45,8 +45,8 @@ class MyApp extends StatelessWidget {
             darkTheme: darkTheme,
             themeMode: ThemeMode.system,
             //DESCOMENTAR CUANDO TERMINE DE LISTAPERTENENCIA
-          //  home: uid == null ?  signin() : home(),
-           home: home(),
+           home: uid == null ?  signin() : home(),
+          //  home: home(),
           ),
         );
       },

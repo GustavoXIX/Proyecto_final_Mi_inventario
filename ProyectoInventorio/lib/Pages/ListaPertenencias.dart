@@ -19,8 +19,8 @@ class _homeState extends State<home> {
   int index = 0;
   late List<Pertenencia> listaPertenencias = [];
   var listaPer = true;
-  Icon iconoLista = new Icon(Icons.view_list_rounded); 
-  Icon iconoImagen = new Icon( Icons.view_carousel_outlined); 
+  Icon iconoLista = new Icon(Icons.view_list_rounded);
+  Icon iconoImagen = new Icon(Icons.view_carousel_outlined);
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<CRUDOperationProvider>(context);
@@ -32,6 +32,7 @@ class _homeState extends State<home> {
         children: [
           FloatingActionButton(
             backgroundColor: Theme.of(context).secondaryHeaderColor,
+            heroTag: 1,
             onPressed: () {
               Future.delayed(const Duration(milliseconds: 500), () {
                 provider.nombreController.clear();
@@ -53,8 +54,9 @@ class _homeState extends State<home> {
           const SizedBox(height: 16.0), // Espacio entre los botones
           FloatingActionButton(
             backgroundColor: Theme.of(context).secondaryHeaderColor,
+            heroTag: 2,
             onPressed: () {
-               provider.fetchPertenencias();
+              provider.fetchPertenencias();
               if (listaPer) {
                 listaPer = false;
               } else {
@@ -62,12 +64,25 @@ class _homeState extends State<home> {
               }
             },
             tooltip: 'Vista',
-            child: listaPer ? iconoLista: iconoImagen,
+            child: listaPer ? iconoLista : iconoImagen,
           ),
         ],
       ),
       body: listaPer
           ? RefreshIndicator(
+              onRefresh: () => provider.fetchPertenencias(),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return PertenenciaTile(
+                        pertencia: provider.listaPertenencias[index]);
+                  },
+                  itemCount: provider.listaPertenencias.length,
+                ),
+              ),
+            )
+          : RefreshIndicator(
               onRefresh: () => provider.fetchPertenencias(),
               child: Swiper(
                 itemBuilder: (context, index) {
@@ -79,19 +94,6 @@ class _homeState extends State<home> {
                 itemCount: provider.listaPertenencias.length,
                 pagination: const SwiperPagination(),
                 control: const SwiperControl(),
-              ),
-            )
-          : RefreshIndicator(
-              onRefresh: () => provider.fetchPertenencias(),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return PertenenciaTile(
-                        pertencia: provider.listaPertenencias[index]);
-                  },
-                  itemCount: provider.listaPertenencias.length,
-                ),
               ),
             ),
       bottomNavigationBar: BottomAppBar(
