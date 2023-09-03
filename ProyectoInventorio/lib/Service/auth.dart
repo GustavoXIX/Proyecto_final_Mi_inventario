@@ -66,7 +66,7 @@ createAccount(
     ScaffoldMessenger.of(c).showSnackBar(SnackBar(
       content: Text("Usuario creado con el correo electrónico: $email"),
     ));
-    Get.to(() => home());
+    Get.to(() =>  home());
     print(user.user?.uid);
   } catch (error) {
     String errorMessage;

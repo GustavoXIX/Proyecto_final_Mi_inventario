@@ -1,5 +1,5 @@
-import 'Pages/IniciarSesion.dart';
 import 'Imports/import.dart';
+import 'Pages/IniciarSesion.dart';
 import 'Theme/Theme.dart';
 
 SharedPreferences? prefs;
@@ -45,8 +45,8 @@ class MyApp extends StatelessWidget {
             darkTheme: darkTheme,
             themeMode: ThemeMode.system,
             //DESCOMENTAR CUANDO TERMINE DE LISTAPERTENENCIA
-           home: uid == null ?  signin() : home(),
-          //  home: home(),
+             home: uid == null ?  signin() : home(),
+            // home: home(),
           ),
         );
       },

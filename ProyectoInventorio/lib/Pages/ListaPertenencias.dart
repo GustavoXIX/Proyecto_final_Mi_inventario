@@ -16,11 +16,13 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
+  // String imageAddress = 'assets/loading.gif';
   int index = 0;
   late List<Pertenencia> listaPertenencias = [];
   var listaPer = true;
   Icon iconoLista = new Icon(Icons.view_list_rounded);
   Icon iconoImagen = new Icon(Icons.view_carousel_outlined);
+
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<CRUDOperationProvider>(context);
@@ -64,7 +66,7 @@ class _homeState extends State<home> {
               }
             },
             tooltip: 'Vista',
-            child: listaPer ? iconoLista : iconoImagen,
+            child: listaPer ? iconoImagen : iconoLista,
           ),
         ],
       ),
@@ -76,19 +78,19 @@ class _homeState extends State<home> {
                 child: ListView.builder(
                   itemBuilder: (context, index) {
                     return PertenenciaTile(
-                        pertencia: provider.listaPertenencias[index]);
+                        pertenencia: provider.listaPertenencias[index]);
                   },
                   itemCount: provider.listaPertenencias.length,
                 ),
               ),
             )
-          : RefreshIndicator(
+             :RefreshIndicator(
               onRefresh: () => provider.fetchPertenencias(),
               child: Swiper(
                 itemBuilder: (context, index) {
                   final pertenencia = provider.listaPertenencias[index];
                   return PertenenciaTile(
-                    pertencia: pertenencia,
+                    pertenencia: pertenencia,
                   );
                 },
                 itemCount: provider.listaPertenencias.length,
@@ -102,10 +104,10 @@ class _homeState extends State<home> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconButton(
-              icon: const Icon(Icons.logout),
+              icon: const Icon(Icons.logout_rounded),
               onPressed: () {
                 founsSignout(context);
-                //  Statechange();
+                Statechange();
               },
             ),
           ],

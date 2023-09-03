@@ -4,6 +4,7 @@ import 'package:invetariopersonal/Models/pertenecia.dart';
 import 'package:invetariopersonal/widgets/calendario.dart';
 import 'package:provider/provider.dart';
 
+import '../Imports/import.dart';
 import '../widgets/ImageInput.dart';
 
 class AddNewPertenenciaPage extends StatefulWidget {
@@ -117,16 +118,28 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                   height: 15,
                 ),
                 if (provider.imageUrlController.text.isNotEmpty)
-                  Container(
-                    height: 200,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
+                  GestureDetector(
+                    onTap: () async {
+                      final imagePicker = ImagePicker();
+                      final XFile? image = await imagePicker.pickImage(
+                          source: ImageSource.camera);
+
+                      if (image != null) {
+                        // Aquí puedes hacer algo con la imagen seleccionada, como guardarla o mostrarla
+                        // También puedes actualizar el valor en imageUrlController.text con la nueva imagen.
+                        provider.imageUrlController.text = image.path;
+                        ImageInput(provider.onSelectImage);
+                      }
+                    },
+                    child: Container(
+                      height: 200,
+                      width: 200,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                      ),
+                      child: Image.network(provider.imageUrlController.text),
                     ),
-                    child: Image.network(provider.imageUrlController.text),
-                  )
-                else
-                  ImageInput(provider.onSelectImage),
+                  ),
                 const SizedBox(
                   height: 15,
                 ),
@@ -138,7 +151,6 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                         onPressed: () {
                           if (provider.formKey.currentState!.validate()) {
                             if (widget.pertenencia != null) {
-                              print("Editar pertenencia");
                               provider.updatePertenencia(
                                   context: context,
                                   id: widget.pertenencia!.docId);
@@ -147,7 +159,7 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                                 context,
                               );
                             }
-                          } else {}
+                          }
                         },
                         color: Theme.of(context).primaryColor,
                         child: Text(

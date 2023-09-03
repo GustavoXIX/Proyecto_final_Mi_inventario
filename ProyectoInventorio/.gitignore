@@ -9,6 +9,8 @@
 .history
 .svn/
 migrate_working_dir/
+#build
+./build
 
 #FVM flutter
 .fvm/flutter_sdk

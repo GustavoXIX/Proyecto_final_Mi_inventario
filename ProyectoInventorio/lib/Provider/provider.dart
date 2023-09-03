@@ -7,10 +7,9 @@ import 'package:http/http.dart' as http;
 import '../Models/pertenecia.dart';
 
 class CRUDOperationProvider extends ChangeNotifier {
-  CRUDOperationProvider() {
-    fetchPertenencias();
-  }
-   List<Pertenencia?> listaPertenencias = [];
+  
+  CRUDOperationProvider();
+  List<Pertenencia?> listaPertenencias = [];
   final formKey = GlobalKey<FormState>();
 
   TextEditingController nombreController = TextEditingController();
@@ -24,10 +23,11 @@ class CRUDOperationProvider extends ChangeNotifier {
 
   // FUNCION PARA AÑADIR PERTENENCIA\\
   Future<void> sendPertenenciaOnFirebase(BuildContext context) async {
+
     isLoading = true;
-    notifyListeners();
     var inst = FirebaseAuth.instance;
     var userID = inst.currentUser?.uid;
+    final imageUrl = await uploadImageToStorage(selectedImage);
     final url = Uri.parse(
         'https://aplicaciondeinventario-default-rtdb.europe-west1.firebasedatabase.app/Usuarios/$userID/Pertenencias.json');
 
@@ -38,7 +38,7 @@ class CRUDOperationProvider extends ChangeNotifier {
         "descripcion": descripcionController.text,
         "fecha": fechaController.text,
         "coste": costeController.text,
-        "imagen": imageUrlController.text,
+        "imagen": imageUrl,
       }),
     );
 
@@ -70,10 +70,27 @@ class CRUDOperationProvider extends ChangeNotifier {
   // FUNCION PARA ACTUALIZAR PERTENENCIA
   Future<void> updatePertenencia({
     required BuildContext context,
-    required String id,
+    required String id, String? imagenUrl,
   }) async {
     var inst = FirebaseAuth.instance;
     var userID = inst.currentUser?.uid;
+    final path = 'Usuarios/$userID/Pertenencias/$id';
+
+    // Obtener la URL de la imagen desde la base de datos
+    final urlResponse = await http.get(Uri.parse('https://aplicaciondeinventario-default-rtdb.europe-west1.firebasedatabase.app/$path.json'));
+    final responseData = jsonDecode(urlResponse.body) as Map<String, dynamic>?;
+    final imageUrl = responseData?['imagen'] as String?;
+
+    if (selectedImage != null) {
+      imageUrl;
+      if (imageUrl == null) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Error al cargar la nueva imagen.'),
+          backgroundColor: Colors.red,
+        ));
+        return; 
+      }
+    }
     final url = Uri.parse(
         'https://aplicaciondeinventario-default-rtdb.europe-west1.firebasedatabase.app/Usuarios/$userID/Pertenencias/$id.json');
 
@@ -84,7 +101,7 @@ class CRUDOperationProvider extends ChangeNotifier {
         "descripcion": descripcionController.text,
         "fecha": fechaController.text,
         "coste": costeController.text,
-        "imagen": imageUrlController.text,
+        "imagen": imageUrl,
       }),
     );
 
@@ -121,45 +138,59 @@ class CRUDOperationProvider extends ChangeNotifier {
   }
 
   // FUNCION PARA OBTENER LAS PERTENENCIAS
- Future<void> fetchPertenencias() async {
+  Future<void> fetchPertenencias() async {
     listaPertenencias = [];
     var inst = FirebaseAuth.instance;
     var userID = inst.currentUser?.uid;
+
     final url = Uri.parse(
         'https://aplicaciondeinventario-default-rtdb.europe-west1.firebasedatabase.app/Usuarios/$userID/Pertenencias.json');
     final response = await http.get(url);
     final extractedData = jsonDecode(response.body) as Map<String, dynamic>?;
-    final pertenenciasData = extractedData;  
+    final pertenenciasData = extractedData;
 
-    if(pertenenciasData!= null) {
-    pertenenciasData.forEach((id, pertenencia) {
-      if (pertenencia != null && pertenencia is Map<String, dynamic>) {
-        listaPertenencias.add(Pertenencia(
-          coste: pertenencia["coste"] ?? "",
-          descripcion: pertenencia["descripcion"] ?? "",
-          fecha: pertenencia["fecha"] ?? "",
-          nombre: pertenencia["nombre"],
-          imagen: pertenencia["imagen"] ?? "",
-          docId: id,
-        ));
-      }
-    });
+    if (pertenenciasData != null) {
+      pertenenciasData.forEach((id, pertenencia) {
+        if (pertenencia != null && pertenencia is Map<String, dynamic>) {
+          listaPertenencias.add(Pertenencia(
+            coste: pertenencia["coste"] ?? "",
+            descripcion: pertenencia["descripcion"] ?? "",
+            fecha: pertenencia["fecha"] ?? "",
+            nombre: pertenencia["nombre"],
+            imagen: pertenencia["imagen"] ?? "",
+            docId: id,
+          ));
+        }
+      });
     }
-  
     notifyListeners();
+
   }
 
   // FUNCION PARA ELIMINAR UNA PERTENENCIA
-  Future<void> deletePertenencia({
+  Future<void> deletePertenencia ({
     required BuildContext context,
     required String id,
   }) async {
     var inst = FirebaseAuth.instance;
     var userID = inst.currentUser?.uid;
+    final path = 'Usuarios/$userID/Pertenencias/$id';
+
+    // Obtener la URL de la imagen desde la base de datos
+    final urlResponse = await http.get(Uri.parse('https://aplicaciondeinventario-default-rtdb.europe-west1.firebasedatabase.app/$path.json'));
+    final responseData = jsonDecode(urlResponse.body) as Map<String, dynamic>?;
+    final imageUrl = responseData?['imagen'] as String?;
+
+    // Eliminar la imagen en Firebase Storage si se proporcionó una URL de imagen
+    if (imageUrl != null && imageUrl.isNotEmpty) {
+      final Reference storageRef = FirebaseStorage.instance.refFromURL(imageUrl);
+      await storageRef.delete();
+    }
     final url = Uri.parse(
         'https://aplicaciondeinventario-default-rtdb.europe-west1.firebasedatabase.app/Usuarios/$userID/Pertenencias/$id.json');
 
     final response = await http.delete(url);
+
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
@@ -188,7 +219,7 @@ class CRUDOperationProvider extends ChangeNotifier {
       // Enviar la imagen a Firestore
       try {
         // Subir la imagen al Storage de Firebase
-        final Reference reference = storage.ref().child('images/$fileName');
+        final Reference reference = storage.ref().child('usuarios/$fileName');
         await reference.putFile(selectedImage as File);
 
         // Obtener la URL de descarga de la imagen
@@ -205,5 +236,27 @@ class CRUDOperationProvider extends ChangeNotifier {
       }
     }
   }
+}
 
+Future<String?> uploadImageToStorage(File? imageFile) async {
+  try {
+    if (imageFile == null) {
+      // Si imageFile es nulo, no hay imagen para cargar
+      return null;
+    }
+    final inst = FirebaseAuth.instance;
+    final userID = inst.currentUser?.uid;
+
+    final Reference storageRef = FirebaseStorage.instance.ref().child(
+        'usuarios/$userID/pertenencias/${DateTime.now().millisecondsSinceEpoch.toString()}.jpg');
+
+    final UploadTask uploadTask = storageRef.putFile(imageFile);
+    final TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
+    final String imageUrl = await taskSnapshot.ref.getDownloadURL();
+
+    return imageUrl;
+  } catch (e) {
+    print('Error al cargar la imagen: $e');
+    return ""; // Devuelve null en caso de error
+  }
 }
