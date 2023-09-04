@@ -35,13 +35,16 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
     }
     return SafeArea(
         child: Scaffold(
+          appBar: AppBar(
+          backgroundColor: Theme.of(context).secondaryHeaderColor,
+        ),
       body: SingleChildScrollView(
         padding:
             EdgeInsets.all(30.0), // Ajusta los valores según tus necesidades
         child: Form(
           key: provider.formKey,
           child: Padding(
-            padding: const EdgeInsets.only(top: 60.0, left: 10.0, right: 20.0),
+            padding: const EdgeInsets.only(top: 10.0, left: 10.0, right: 20.0),
             child: Column(
               children: [
                 TextFormField(
@@ -169,7 +172,7 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                         //     }
                         //   }
                         // },
-                        color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).secondaryHeaderColor,
                         child: Text(
                           widget.pertenencia != null
                               ? "Editar pertenencia"

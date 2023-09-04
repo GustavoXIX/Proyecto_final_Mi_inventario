@@ -7,6 +7,8 @@ import 'package:invetariopersonal/Models/pertenecia.dart';
 import 'package:invetariopersonal/Pages/AniadirPertenecia.dart';
 import 'package:invetariopersonal/widgets/pertenciaTitle.dart';
 import 'package:provider/provider.dart';
+import 'dart:async';
+
 
 class home extends StatefulWidget {
   const home({super.key});
@@ -26,8 +28,17 @@ class _homeState extends State<home> {
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<CRUDOperationProvider>(context);
+
     return SafeArea(
         child: Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Lista de pertencias",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        automaticallyImplyLeading: false,
+        backgroundColor: Theme.of(context).secondaryHeaderColor,
+      ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -62,7 +73,7 @@ class _homeState extends State<home> {
               if (listaPer) {
                 listaPer = false;
               } else {
-                listaPer = true;
+                listaPer = true; 
               }
             },
             tooltip: 'Vista',
@@ -78,7 +89,9 @@ class _homeState extends State<home> {
                 child: ListView.builder(
                   itemBuilder: (context, index) {
                     return PertenenciaTile(
-                        pertenencia: provider.listaPertenencias[index]);
+                      pertenencia: provider.listaPertenencias[index],
+                      listaPer: listaPer,
+                    );
                   },
                   itemCount: provider.listaPertenencias.length,
                 ),

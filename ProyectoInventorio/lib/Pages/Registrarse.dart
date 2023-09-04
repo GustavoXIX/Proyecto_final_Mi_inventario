@@ -32,13 +32,13 @@ class _SignupState extends State<Signup> {
               children: [
                 Container(height: _height, child: HeaderWidget(_height)),
                 Container(
-                  padding: EdgeInsets.only(left: 13, right: 13),
+                  padding: const EdgeInsets.only(left: 13, right: 13),
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 25,
                         ),
                         Center(
@@ -48,11 +48,11 @@ class _SignupState extends State<Signup> {
                                   .titleLarge!
                                   .copyWith(fontSize: 70.0)),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Container(
-                          padding: EdgeInsets.only(left: 10, right: 10),
+                          padding: const EdgeInsets.only(left: 10, right: 10),
                           height: 207,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,7 +87,6 @@ class _SignupState extends State<Signup> {
                                 ),
                               ),
                               TextFormField(
-                                controller: passwordController,
                                 obscureText: _obscureText,
                                 decoration: InputDecoration(
                                   hintText: "Re-Password",
@@ -109,7 +108,7 @@ class _SignupState extends State<Signup> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         defultbutton(
@@ -122,10 +121,10 @@ class _SignupState extends State<Signup> {
                             );
                             Statechange();
                           },
-                          color: Color.fromARGB(255, 0, 136, 255),
+                          color: const Color.fromARGB(255, 0, 136, 255),
                         ),
                         Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -133,7 +132,7 @@ class _SignupState extends State<Signup> {
                               TextButton(
                                 onPressed: () async {
                                   setState(() {});
-                                  Get.to(signin());
+                                  Get.to(const signin());
                                 },
                                 child: Text('Ingresa'.tr),
                               ),
