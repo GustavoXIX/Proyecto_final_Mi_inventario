@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:invetariopersonal/Imports/import.dart';
 import 'package:invetariopersonal/Provider/provider.dart';
 import 'package:invetariopersonal/Models/pertenecia.dart';
 import 'package:invetariopersonal/widgets/calendario.dart';
 import 'package:provider/provider.dart';
 
-import '../Imports/import.dart';
 import '../widgets/ImageInput.dart';
 
 class AddNewPertenenciaPage extends StatefulWidget {
@@ -19,7 +19,8 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<CRUDOperationProvider>(context);
-    provider.fetchPertenencias();
+    //DESCOMENTAR
+    // provider.fetchPertenencias();
     if (widget.pertenencia != null) {
       provider.nombreController =
           TextEditingController(text: widget.pertenencia!.nombre);
@@ -118,27 +119,22 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                   height: 15,
                 ),
                 if (provider.imageUrlController.text.isNotEmpty)
-                  GestureDetector(
-                    onTap: () async {
-                      final imagePicker = ImagePicker();
-                      final XFile? image = await imagePicker.pickImage(
-                          source: ImageSource.camera);
-
-                      if (image != null) {
-                        // Aquí puedes hacer algo con la imagen seleccionada, como guardarla o mostrarla
-                        // También puedes actualizar el valor en imageUrlController.text con la nueva imagen.
-                        provider.imageUrlController.text = image.path;
-                        ImageInput(provider.onSelectImage);
-                      }
-                    },
-                    child: Container(
-                      height: 200,
-                      width: 200,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                      ),
-                      child: Image.network(provider.imageUrlController.text),
+                  Container(
+                    height: 200,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
                     ),
+                    child: Image.network(provider.imageUrlController.text),
+                  )
+                else
+                  Container(
+                    height: 200,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                    ),
+                    child: ImageInput(provider.onSelectImage),
                   ),
                 const SizedBox(
                   height: 15,
@@ -152,21 +148,39 @@ class _AddNewPertenenciaPageState extends State<AddNewPertenenciaPage> {
                           if (provider.formKey.currentState!.validate()) {
                             if (widget.pertenencia != null) {
                               provider.updatePertenencia(
-                                  context: context,
-                                  id: widget.pertenencia!.docId);
-                            } else {
-                              provider.sendPertenenciaOnFirebase(
-                                context,
+                                context: context,
+                                id: widget.pertenencia!.docId,
                               );
+                            } else {
+                              provider.sendPertenenciaOnFirebase(context);
                             }
                           }
                         },
+                        // DESCOMENTAR SI ES NECESARIO
+                        // onPressed: () {
+                        //   if (provider.formKey.currentState!.validate()) {
+                        //     if (widget.pertenencia != null) {
+                        //       print("Editar pertenencia");
+                        //       provider.sendPertenenciaOnFirebase(context);
+                        //     } else {
+                        //       provider.updatePertenencia(
+                        //           context: context,
+                        //           id: widget.pertenencia!.docId);
+                        //     }
+                        //   }
+                        // },
                         color: Theme.of(context).primaryColor,
                         child: Text(
                           widget.pertenencia != null
                               ? "Editar pertenencia"
                               : "Añadir pertenencia",
-                          style: Theme.of(context).textTheme.labelSmall,
+                          style: const TextStyle(
+                            color: Colors
+                                .white, // Cambiar el color del texto a blanco o al color deseado.
+                            fontSize:
+                                18.0, // Cambiar el tamaño del texto según tus preferencias.
+                            // Puedes ajustar otras propiedades de estilo según sea necesario.
+                          ),
                         ),
                       )
               ],

@@ -84,7 +84,7 @@ class _homeState extends State<home> {
                 ),
               ),
             )
-             :RefreshIndicator(
+          : RefreshIndicator(
               onRefresh: () => provider.fetchPertenencias(),
               child: Swiper(
                 itemBuilder: (context, index) {

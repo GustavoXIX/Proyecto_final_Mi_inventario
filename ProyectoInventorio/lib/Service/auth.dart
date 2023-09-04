@@ -118,6 +118,7 @@ signinWithEmail(
         prefs!.setString('email', email);
         prefs!.setString('password', email);
       }
+
       Get.to(() => home());
       checkuser();
       ScaffoldMessenger.of(c).showSnackBar(const SnackBar(

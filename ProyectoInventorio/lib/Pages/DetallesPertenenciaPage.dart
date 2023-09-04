@@ -34,21 +34,37 @@ class _DetallesPertenenciaPageState extends State<DetallesPertenenciaPage>
     ScreenUtil.init(context);
     // Calcula la altura de la pantalla en un 60%
     double screenHeight = ScreenUtil().screenHeight * 0.6;
-    final provider = Provider.of<CRUDOperationProvider>(context);
+    //final provider = Provider.of<CRUDOperationProvider>(context);
     return Scaffold(
         body: Container(
       margin: EdgeInsets.all(20.0),
       // Espacio de 20.0 en todos los lados
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [ 
-          Image.asset(
-          'assets/logoGrande.png', 
-            // provider.imageUrlController.text,
-            height: screenHeight,
-            fit: BoxFit.cover,
-            // Ejemplo
-            width: double.infinity,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: FadeInImage.assetNetwork(
+              placeholder: 'assets/Loading1.gif',
+              image: pertenencia?.imagen as String,
+              fadeInDuration: const Duration(milliseconds: 500),
+              // provider.imageUrlController.text,
+              height: screenHeight,
+              fit: BoxFit.cover,
+
+              // Ejemplo
+              width: double.infinity,
+              imageErrorBuilder:
+                  (BuildContext context, Object error, StackTrace? stackTrace) {
+                // Esta función se llama en caso de que se produzca un error al cargar la imagen.
+                // Puedes personalizar el widget de error aquí. Por ejemplo, mostrar una imagen de error.
+                return Image.asset(
+                  'assets/NoHayImagen.jpg',
+                  height: screenHeight,
+                  fit: BoxFit.cover,
+                );
+              },
+            ),
           ),
           const SizedBox(height: 16.0),
           Text(

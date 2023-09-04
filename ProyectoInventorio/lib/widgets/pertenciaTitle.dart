@@ -20,12 +20,19 @@ class PertenenciaTile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 IconButton(
-                  onPressed: () {
-                    
-                    Navigator.of(context).push(MaterialPageRoute(
+                  onPressed: () async {
+                   await Navigator.of(context).push(MaterialPageRoute(
                         builder: (_) => AddNewPertenenciaPage(
                               pertenencia: pertenencia,
                             )));
+
+                    Future.delayed(const Duration(milliseconds: 500), () {
+                      provider.nombreController.clear();
+                      provider.descripcionController.clear();
+                      provider.costeController.clear();
+                      provider.fechaController.clear();
+                      provider.imageUrlController.clear();
+                    });
                   },
                   icon: const Icon(
                     Icons.edit,
@@ -46,7 +53,7 @@ class PertenenciaTile extends StatelessWidget {
         ),
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
-             builder: (_) => DetallesPertenenciaPage(pertenencia: pertenencia),
+            builder: (_) => DetallesPertenenciaPage(pertenencia: pertenencia),
           ));
         },
       ),
